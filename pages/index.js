@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Head from "next/head";
 
 export default function Home() {
   return (
@@ -6,7 +6,6 @@ export default function Home() {
       <Head>
         <title>Create Next App</title>
       </Head>
-      <button className="btn">Hello daisyUI</button>
     </div>
   );
 }
