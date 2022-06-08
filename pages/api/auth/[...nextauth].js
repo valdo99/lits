@@ -1,6 +1,11 @@
 import NextAuth from "next-auth";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
+import HasuraAdapter, { hasuraClaims } from "../../../lib/hasuraAdapter";
+
+const adminSecret = process.env.X_HASURA_ADMIN_SECRET;
+
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
@@ -21,27 +26,29 @@ export default NextAuth({
         },
       },
     }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+    }),
   ],
+  adapter: HasuraAdapter(),
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
+  },
+  jwt: {
+    maxAge: 60 * 60 * 24 * 30,
+  },
   callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.refresh_token;
-      }
+    async jwt({ token }) {
+      token.userRole = "user";
+      token.jwt = await hasuraClaims(token.sub);
       return token;
     },
-    async session(session, user) {
-      session.user = user;
+    async session(session) {
+      session.user = await HasuraAdapter().getUser(session.token.sub);
       return session;
-    },
-    async authorize(user) {
-      //TODO check if the user with another provider is already registered else register or let login
-      return true;
-    },
-    async signIn({ account, profile }) {
-      if (account.provider === "google") {
-        return profile.email_verified;
-      }
-      return true; // Do different verification for other providers that don't have `email_verified`
     },
   },
 });

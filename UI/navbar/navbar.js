@@ -1,7 +1,7 @@
 import { useSession, signOut, signIn } from "next-auth/react";
+
 export default function Navbar({}) {
   const { data: session } = useSession();
-  // const { session } = data;
 
   return (
     <div class="navbar bg-base-100 xl:px-32 md:px-10 xs:pr-8 py-6">
@@ -92,16 +92,14 @@ export default function Navbar({}) {
         </ul>
       </div>
       <div class="navbar-end ">
-        {session?.session?.user?.name ? (
+        {session?.user?.name ? (
           <div class="dropdown dropdown-end">
             <label
               tabindex="0"
               class="btn btn-ghost btn-circle avatar placeholder"
             >
               <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <span class="text-xl">
-                  {session?.session?.user?.name.slice(0, 1)}
-                </span>
+                <span class="text-xl">{session?.user?.name.slice(0, 1)}</span>
               </div>
             </label>
             <ul
@@ -109,7 +107,7 @@ export default function Navbar({}) {
               class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <p>{session?.session?.user?.name}</p>
+                <p>{session?.user?.name.slice(0, 20)}</p>
               </li>
               <li>
                 <a class="justify-between">Profile</a>
@@ -123,9 +121,25 @@ export default function Navbar({}) {
             </ul>
           </div>
         ) : (
-          <a onClick={signIn} class="btn">
-            Get started
-          </a>
+          <div class="dropdown dropdown-left">
+            <label tabindex="0" class="btn m-1">
+              Get started
+            </label>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a onClick={() => signIn("spotify")}>Login with Spotify</a>
+              </li>
+              <li>
+                <a onClick={() => signIn("google")}>Login with Google</a>
+              </li>
+              <li>
+                <a onClick={() => signIn("facebook")}>Login with Facebook</a>
+              </li>
+            </ul>
+          </div>
         )}
       </div>
     </div>

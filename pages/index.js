@@ -1,3 +1,4 @@
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 
 export default function Home() {
@@ -8,4 +9,12 @@ export default function Home() {
       </Head>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      session: await getSession(context),
+    },
+  };
 }
