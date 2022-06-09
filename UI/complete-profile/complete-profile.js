@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { hasuraRequest } from "../../lib/hasuraAdapter";
+import Input from "../components/input";
 
 const reloadSession = () => {
   const event = new Event("visibilitychange");
@@ -47,47 +48,27 @@ export default function CompleteProfile({}) {
           <div class="mt-5 md:mt-0 md:col-span-2">
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* register your input into the hook by invoking the "register" function */}
-              <div class="py-5 space-y-3 sm:py-3">
-                <div class="form-control w-full max-w-xs">
-                  <label class="label">
-                    <span class="label-text">What is your name?</span>
-                  </label>
-                  <input
-                    {...register("name", { required: true })}
-                    type="text"
-                    placeholder="Name"
-                    class="input input-bordered w-full max-w-xs"
-                  />
-                  {errors.name && (
-                    <label class="label">
-                      <span class="label-text-alt text-red-500">
-                        This field is required
-                      </span>
-                    </label>
-                  )}
-                </div>
-              </div>
+              <Input
+                error={{
+                  name: errors.name,
+                  message: "This field is required",
+                }}
+                label="What is your name?"
+                placeholder="Name"
+                type="text"
+                register={{ ...register("name", { required: true }) }}
+              />
               {/* include validation with required or other standard HTML validation rules */}
-              <div class=" py-5 space-y-3 sm:py-3">
-                <div class="form-control w-full max-w-xs">
-                  <label class="label">
-                    <span class="label-text">What is your surname?</span>
-                  </label>
-                  <input
-                    {...register("surname", { required: true })}
-                    type="text"
-                    placeholder="Surname"
-                    class="input input-bordered w-full max-w-xs"
-                  />
-                  {errors.surname && (
-                    <label class="label">
-                      <span class="label-text-alt text-red-500">
-                        This field is required
-                      </span>
-                    </label>
-                  )}
-                </div>
-              </div>
+              <Input
+                error={{
+                  name: errors.name,
+                  message: "This field is required",
+                }}
+                label="What is your surname?"
+                placeholder="Surname"
+                type="text"
+                register={{ ...register("surname", { required: true }) }}
+              />
               {/* errors will return when field validation fails  */}
               <input className="btn" type="submit" />
             </form>
