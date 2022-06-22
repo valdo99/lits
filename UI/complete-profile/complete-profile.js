@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { hasuraRequest } from "../../lib/hasuraAdapter";
-import Input from "../components/input";
+import Input from "../../components/input";
 
 const reloadSession = () => {
   const event = new Event("visibilitychange");

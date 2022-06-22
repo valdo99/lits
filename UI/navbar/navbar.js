@@ -1,4 +1,5 @@
 import { useSession, signOut, signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Navbar({}) {
   const { data: session } = useSession();
@@ -11,9 +12,9 @@ export default function Navbar({}) {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
-              fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
+              strokeWidth="currentColor"
+              className="fill-white"
             >
               <path
                 stroke-linecap="round"
@@ -28,7 +29,7 @@ export default function Navbar({}) {
             class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Item 1</a>
+              <Link href={"/upload-song"}>Upload track</Link>
             </li>
             <li tabindex="0">
               <a class="justify-between">
