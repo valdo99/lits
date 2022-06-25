@@ -1,3 +1,116 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --primary: #ff79c6;
+    --secondary: #bd93f9;
+    --accent: #ffb86c;
+    --neutral: #414558;
+    --info: #8be9fd;
+    --success: #50fa7b;
+    --warning: #f1fa8c;
+    --error: #ff5555;
+}
+
+.scale-up-center {animation:scale-up-center 0.4s; } @keyframes scale-up-center{ 0%{transform:scale(.5)} 100%{transform:scale(1)} }
+
+.like-button {
+  border: none;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  padding: 0 1rem 0 1rem;
+  transition: 150ms all;
+  background-color: #1e2837;
+}
+.like-button.dislike .icon svg.prime {
+  -webkit-animation: dislike 550ms forwards ease-in-out;
+          animation: dislike 550ms forwards ease-in-out;
+}
+.like-button.active {
+  background-color: var(--secondary);
+}
+.like-button.active .counter {
+  color: white;
+}
+.like-button.active .icon svg {
+  color: white;
+}
+.like-button.active .icon svg.prime {
+  -webkit-animation: like 550ms forwards ease-in-out;
+          animation: like 550ms forwards ease-in-out;
+}
+.like-button .counter {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  padding: 1rem 0 1rem 1rem;
+  transition: 150ms all;
+}
+.like-button .icon {
+  transition: 150ms all;
+  position: relative;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.like-button .icon svg {
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.like-button .icon svg.normal {
+  z-index: 1;
+  opacity: 0.5;
+}
+.like-button .icon svg.prime {
+  z-index: 2;
+}
+
+@-webkit-keyframes dislike {
+  0% {
+    color: var(--primary);
+    transform: translate(0, 0%);
+  }
+  100% {
+    color: var(--secondary);
+    transform: translate(0, 300%) scale(0);
+  }
+}
+
+@keyframes dislike {
+  0% {
+    color: var(--primary);
+    transform: translate(0, 0%);
+  }
+  100% {
+    color: var(--secondary);
+    transform: translate(0, 300%) scale(0);
+  }
+}
+@-webkit-keyframes like {
+  0% {
+    color: var(--primary);
+    transform: translate(0, 0%);
+  }
+  100% {
+    color: white);
+    transform: translate(0, -300%) scale(0);
+  }
+}
+@keyframes like {
+  0% {
+    color: var(--primary);
+    transform: translate(0, 0%);
+  }
+  100% {
+    color: white;
+    transform: translate(0, -300%) scale(0);
+  }
+}
