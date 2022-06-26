@@ -9,8 +9,8 @@ export default function LoginModal({}) {
   useOnClickOutside(ref, () => setShowModal({ show: false, children: null }));
 
   return (
-    <div class={`modal ${show && "modal-open"} overflow-hidden`}>
-      <div class="modal-box w-11/12 max-w-5xl" ref={ref}>
+    <div class={`modal ${show && "modal-open"}`}>
+      <div class="modal-box w-11/12 max-w-5xl overflow-hidden" ref={ref}>
         {children}
         <div class="modal-action">
         </div>
