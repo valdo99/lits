@@ -3,17 +3,27 @@
 @tailwind utilities;
 
 :root {
-    --primary: #ff79c6;
-    --secondary: #bd93f9;
-    --accent: #ffb86c;
-    --neutral: #414558;
-    --info: #8be9fd;
-    --success: #50fa7b;
-    --warning: #f1fa8c;
-    --error: #ff5555;
+  --primary: #ff79c6;
+  --secondary: #bd93f9;
+  --accent: #ffb86c;
+  --neutral: #414558;
+  --info: #8be9fd;
+  --success: #50fa7b;
+  --warning: #f1fa8c;
+  --error: #ff5555;
 }
 
-.scale-up-center {animation:scale-up-center 0.4s; } @keyframes scale-up-center{ 0%{transform:scale(.5)} 100%{transform:scale(1)} }
+.scale-up-center {
+  animation: scale-up-center 0.4s;
+}
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .like-button {
   border: none;
@@ -29,7 +39,7 @@
 }
 .like-button.dislike .icon svg.prime {
   -webkit-animation: dislike 550ms forwards ease-in-out;
-          animation: dislike 550ms forwards ease-in-out;
+  animation: dislike 550ms forwards ease-in-out;
 }
 .like-button.active {
   background-color: var(--secondary);
@@ -42,7 +52,7 @@
 }
 .like-button.active .icon svg.prime {
   -webkit-animation: like 550ms forwards ease-in-out;
-          animation: like 550ms forwards ease-in-out;
+  animation: like 550ms forwards ease-in-out;
 }
 .like-button .counter {
   font-size: 1rem;
@@ -64,6 +74,8 @@
   left: 0;
   width: 1.6rem;
   height: 1.6rem;
+  z-index: 3000000;
+  overflow: visible;
 }
 .like-button .icon svg.normal {
   z-index: 1;
@@ -88,6 +100,8 @@
   0% {
     color: var(--primary);
     transform: translate(0, 0%);
+    z-index: 30000;
+    overflow: visible;
   }
   100% {
     color: var(--secondary);
@@ -98,9 +112,11 @@
   0% {
     color: var(--primary);
     transform: translate(0, 0%);
+    z-index: 30000;
+    overflow: visible;
   }
   100% {
-    color: white);
+    color: white;
     transform: translate(0, -300%) scale(0);
   }
 }

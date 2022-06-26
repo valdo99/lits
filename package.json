@@ -25,6 +25,7 @@
     "react-dom": "17.0.1",
     "react-hook-form": "^7.31.3",
     "react-query": "^3.39.1",
+    "recoil": "^0.7.4",
     "remove": "^0.1.5",
     "request": "^2.88.2",
     "tailwindcss": "^3.0.23",
