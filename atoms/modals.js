@@ -8,7 +8,7 @@ const loginModal = atom({
 const modalAtom = atom({
   key: "modalAtom",
   default: {
-    show: true,
+    show: false,
     children: <h1>hiiii</h1>,
   },
 });

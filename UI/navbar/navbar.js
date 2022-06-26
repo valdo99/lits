@@ -96,7 +96,7 @@ export default function Navbar({}) {
         ) : (
           <div class="dropdown dropdown-left">
             <label tabindex="0" class="btn m-1">
-              Get started
+              Registrati
             </label>
             <ul
               tabindex="0"
