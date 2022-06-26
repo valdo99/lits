@@ -1,8 +1,9 @@
 import request from "request";
 import axios from "axios";
-import { insertPostOne } from "../../graphql/mutations";
+import { insertArtistOne, insertPostOne } from "../../graphql/mutations";
 import { getSession } from "next-auth/react";
 import { hasuraRequest } from "../../lib/hasuraAdapter";
+import { ArtistByPk, findPostByPk } from "../../graphql/queries";
 
 var authOptions = {
   url: "https://accounts.spotify.com/api/token",
@@ -47,30 +48,52 @@ export default async function handler(req, res) {
           const trackUrl = `https://open.spotify.com/track/${req.body.url}`;
 
           //TODO 1 -> controllare se canzone esiste già
-          //TODO 2 -> controllare se artista esiste già, se non esiste inserire.
-          //TODO 3 -> controllare se canzone esiste già
+          try {
+            const { posts_by_pk } = await hasuraRequest({
+              query: findPostByPk(trackId),
+              admin: true,
+            });
+            if (posts_by_pk) {
+              return res.status(403).send("Track already registered");
+            }
+          } catch (error) {}
 
-          const responseObj = {
-            artistData,
-            trackName,
-            previewSong,
-            trackId,
-            album,
-          };
+          const { artist_by_pk } = await hasuraRequest({
+            query: ArtistByPk(artistData?.id),
+            admin: true,
+          });
+          if (!artist_by_pk) {
+            //TODO  -> inserire artista.
+            await hasuraRequest({
+              query: insertArtistOne({
+                id: artistData?.id,
+                name: artistData.name,
+                user: user.id,
+              }),
+              admin: true,
+            });
+          }
+
+          // const responseObj = {
+          //   artistData,
+          //   trackName,
+          //   previewSong,
+          //   trackId,
+          //   album,
+          // };
 
           const d = await hasuraRequest({
             query: insertPostOne({
-              artist: "13jvLDXME7yplEwCweRivE",
+              artist: artistData.id,
               spotify_url: trackUrl,
               poster: image,
               title: trackName,
               track_preview_url: previewSong,
               id: trackId,
-              hunter: user.id,
+              userBy: user.id,
             }),
             admin: true,
           });
-          console.log(d);
           if (d?.insert_posts_one)
             return res.status("200").send(d?.insert_posts_one);
 

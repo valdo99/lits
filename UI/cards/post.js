@@ -1,5 +1,8 @@
+import { getSession, useSession } from "next-auth/react";
+
 import { useState, useEffect } from "react";
 import AudioPlayer from "../../components/audio-player";
+import useDelayedLikeButton from "../../hooks/useDelayedClick";
 
 export default function PostCard({
   title,
@@ -7,9 +10,19 @@ export default function PostCard({
   photo,
   reproductionURL,
   likesAggregate,
+  isLiked = false,
+  postId,
 }) {
+  const { data: session } = useSession();
   const [classNameLike, setClassNameLike] = useState();
   const [likes, setLikes] = useState(likesAggregate);
+  const [liked, setIsLiked] = useState(isLiked);
+  const [, setLikeButton] = useDelayedLikeButton({
+    isLiked,
+    user: session?.user?.id,
+    post: postId,
+    jwt: session.token.jwt,
+  });
 
   return (
     <div class="card lg:card-side bg-base-100 shadow-xl w-full ">
@@ -34,14 +47,17 @@ export default function PostCard({
           </div>
           <div className="flex items-center">
             <button
-              class={`like-button ${classNameLike}`}
+              class={`like-button ${classNameLike} ${liked && "initialActive"}`}
               onClick={() => {
-                if (!classNameLike || classNameLike === "dislike") {
+                if (!liked && (!classNameLike || classNameLike === "dislike")) {
                   setClassNameLike("active");
                   setLikes(likes + 1);
+                  setLikeButton(true);
                 } else {
                   setClassNameLike("dislike");
+                  setIsLiked(false);
                   setLikes(likes - 1);
+                  setLikeButton(false);
                 }
               }}
               id="like"

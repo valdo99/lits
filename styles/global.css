@@ -44,6 +44,9 @@
 .like-button.active {
   background-color: var(--secondary);
 }
+.like-button.initialActive {
+  background-color: var(--secondary);
+}
 .like-button.active .counter {
   color: white;
 }
