@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 
           const d = await hasuraRequest({
             query: insertPostOne({
-              author: "13jvLDXME7yplEwCweRivE",
+              artist: "13jvLDXME7yplEwCweRivE",
               spotify_url: trackUrl,
               poster: image,
               title: trackName,

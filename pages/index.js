@@ -12,23 +12,38 @@ export default function Home() {
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   const fetchData = async () => {
-    setData(await hasuraRequest({query: postsList}))
-  }
+    setData(await hasuraRequest({ query: postsList }));
+  };
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <div>
       <Head></Head>
       <div className="mx-20">
-        <button className="btn btn-primary max-w-sm mt-6" onClick={() => setShowUploadModal(true)}>Suggerisci un brano</button>
-      {data && data.posts.map((post) => 
-      <div class="flex flex-row justify-center my-8">
-        <PostCard class="w-100" title={post.title} artist={post.authorByAuthor.name} photo={post.poster} reproductionURL={post.track_preview_url && post.track_preview_url} likesAggregate={post.likes_aggregate?.aggregate?.count}/>
-        </div>
-        )}
+        <button
+          className="btn btn-primary max-w-sm mt-6"
+          onClick={() => setShowUploadModal(true)}
+        >
+          Suggerisci un brano
+        </button>
+        {data &&
+          data.posts.map((post) => (
+            <div class="flex flex-row justify-center my-8">
+              <PostCard
+                class="w-100"
+                title={post.title}
+                artist={post.artistByArtist.name}
+                photo={post.poster}
+                reproductionURL={
+                  post.track_preview_url && post.track_preview_url
+                }
+                likesAggregate={post.likes_aggregate?.aggregate?.count}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );

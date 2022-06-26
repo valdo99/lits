@@ -1,6 +1,6 @@
 export const postsList = `query MyQuery {
   posts(order_by: {likes_aggregate: {count: desc}, created_at: desc}) {
-    authorByAuthor {
+    artistByArtist {
       name
     }
     user {

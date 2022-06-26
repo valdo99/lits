@@ -8,7 +8,7 @@ export const insertPostOne = ({
 }) => `
 mutation creratePost {
   insert_posts_one(object: {author: "${author}", spotify_url: "${spotify_url}", title: "${title}", poster: "${poster}", track_preview_url: "${track_preview_url}", hunter: "${hunter}"}){
-    authorByAuthor{
+    artistByArtist{
       name
     }
     track_preview_url
