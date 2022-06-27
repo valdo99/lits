@@ -21,7 +21,7 @@ export default function PostCard({
     isLiked,
     user: session?.user?.id,
     post: postId,
-    jwt: session.token.jwt,
+    jwt: session?.token?.jwt,
   });
 
   return (

@@ -10,14 +10,11 @@ const useDelayedLikeButton = (initialValue) => {
     window.clearTimeout(timeOutRef.current);
 
     timeOutRef.current = window.setTimeout(async () => {
-      setValue(!isLiked);
+      setValue({ isLiked: !isLiked, post, user, jwt });
       if (!isLiked) {
         await hasuraRequest({ query: likePost({ post, user }), token: jwt });
-        console.log("liking");
       } else {
         await hasuraRequest({ query: dislikePost({ post, user }), token: jwt });
-
-        console.log("not liking");
       }
     }, 300);
   };

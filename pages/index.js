@@ -35,66 +35,79 @@ export default function Home() {
     <div>
       <Head></Head>
       <div className="mx-20">
-        <button
-          className="btn btn-primary max-w-sm mt-6"
-          onClick={() =>
-            setShowModal({
-              show: true,
-              children: (
-                <center>
-                  <h2 className="text-3xl text-center">
-                    Suggeriscici un brano!
-                  </h2>
-                  <p className="my-6 mx-12 text-[#a3aacf]">
-                    Noi del team Leets cerchiamo di aggiungere nuovi brani ogni
-                    giorno, ma non riusciamo a fare tutto da soli. Inserisci
-                    l'URL di un brano che vorresti vedere su Leets e potrai
-                    vedere il tuo artista crescere
-                  </p>
-                  <Input
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    placeholder="URL"
-                    label="Spotify link"
-                    type="text"
-                  />
-                  <button
-                    onClick={async () => {
-                      const { data } = await request({
-                        userId: session?.token?.sub,
-                        jwt: session?.token?.jwt,
-                        endpoint: "/upload-spotify-url",
-                        body: {
-                          url: url.substring(
-                            url.indexOf("track/") + 6,
-                            url.lastIndexOf("?")
-                          ),
-                        },
-                      });
-                      setTrack(data);
-                    }}
-                    className="btn mt-6"
-                  >
-                    Invia
-                  </button>
+        {session?.user && (
+          <button
+            className="btn btn-primary max-w-sm mt-6"
+            onClick={() =>
+              setShowModal({
+                show: true,
+                children: (
+                  <center>
+                    <h2 className="text-3xl text-center">
+                      Suggeriscici un brano!
+                    </h2>
+                    <p className="my-6 mx-12 text-[#a3aacf]">
+                      Noi del team Leets cerchiamo di aggiungere nuovi brani
+                      ogni giorno, ma non riusciamo a fare tutto da soli.
+                      Inserisci l'URL di un brano che vorresti vedere su Leets e
+                      potrai vedere il tuo artista crescere
+                    </p>
+                    <Input
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder="URL"
+                      label="Spotify link"
+                      type="text"
+                    />
+                    <button
+                      onClick={async () => {
+                        try {
+                          const { data } = await request({
+                            userId: session?.token?.sub,
+                            jwt: session?.token?.jwt,
+                            endpoint: "/upload-spotify-url",
+                            body: {
+                              url: url.substring(
+                                url.indexOf("track/") + 6,
+                                url.lastIndexOf("?")
+                              ),
+                            },
+                          });
+                          setTrack(data);
+                        } catch (error) {
+                          console.log(error.response.request);
+                          if (error?.response?.request?.status === 409) {
+                            setShowModal({
+                              show: true,
+                              children: <p>{error.response.data}</p>,
+                            });
+                          }
+                        }
+                      }}
+                      className="btn mt-6"
+                    >
+                      Invia
+                    </button>
 
-                  {track && (
-                    <div className=" flex flex-row justify-center">
-                      <PostCard
-                        title={track.trackName}
-                        artist={track.artistData.name}
-                        photo={track.images[0].url}
-                        reproductionURL={track.previewSong}
-                      />
-                    </div>
-                  )}
-                </center>
-              ),
-            })
-          }
-        >
-          Suggerisci un brano
-        </button>
+                    {track && (
+                      <div className=" flex flex-row justify-center">
+                        <PostCard
+                          title={track.trackName}
+                          artist={track.artistData.name}
+                          photo={track.images[0].url}
+                          reproductionURL={track.previewSong}
+                        />
+                      </div>
+                    )}
+                  </center>
+                ),
+              })
+            }
+          >
+            Suggerisci un brano
+          </button>
+        )}
+
         {data &&
           data.posts.map((post) => (
             <div class="flex flex-row justify-center my-8">
